@@ -1,0 +1,8 @@
+enum BMICategory {
+  BMI_7_TO_25,
+  BMI_25_TO_30,
+  BMI_30_TO_35,
+  BMI_35_TO_40,
+  BMI_40_TO_200,
+  NOT_RECORDED
+}

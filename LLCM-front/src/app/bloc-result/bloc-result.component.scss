@@ -2,12 +2,28 @@
   border-radius: 6px;
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.25);
   background-color: rgba(#C4C4C4, .10);
-  margin-bottom: 20px;
-
+  height: 250px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
   .title-container{
     background: rgba(79,191,255,0.9200000166893005);
-    overflow: hidden;
-    padding: 10px;
     text-align: center;
+    display: block;
+    padding: 10px;
+  }
+
+  .result{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    .number{
+      color: red;
+      font-size: 3rem;
+      text-align: center;
+    }
   }
 }

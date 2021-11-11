@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-bloc-result',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlocResultComponent implements OnInit {
 
+  @Input()
+  result: number;
   constructor() { }
 
   ngOnInit(): void {

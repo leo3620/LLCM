@@ -52,3 +52,54 @@ app-bloc-container{
 .example-radio-button{
   margin-right: 15px;
 }
+
+.wrapper {
+  display:flex;
+  flex-direction:column;
+}
+.grid-row, .grid-header {
+  display:flex;
+}
+.sig-section-comments{
+  display: flex;
+  margin-top:1em;
+  justify-content: flex-end;
+}
+
+.grid-header {
+  align-items: flex-end;
+}
+.header-item {
+  width:120px;
+  text-align:center;
+  /*   border:1px solid transparent; */
+}
+.header-item:nth-child(1) {
+  width:170px;
+}
+.subtitle {
+  font-size: 0.7em;
+}
+.flex-item:before {
+  content: '';
+  padding-top:26%;
+}
+.flex-item {
+  display:flex;
+  /*   flex-basis:25%; */
+  width:120px;
+  border-bottom:1px solid #ccc;
+  justify-content: center;
+  align-items:center;
+  /*   text-align:left; */
+  font-size: 1em;
+  font-weight:normal;
+  color:#999;
+}
+.flex-item:nth-child(1) {
+  border:none;
+  font-size:1.15em;
+  color:#000;
+  width:170px;
+  justify-content: left;
+}

@@ -1,4 +1,5 @@
 <div class="fullPage">
+  <form [formGroup]="form" (submit)="submit()">
   <div class="top">
     <div class="leftSide">
       <app-bloc-container [title]="'Informations générales'">
@@ -7,31 +8,31 @@
          <div class="left">
            <mat-form-field appearance="standard">
              <mat-label>Age</mat-label>
-             <input matInput type="number" placeholder="Ex.20" min="1" max="150">
+             <input matInput type="number" placeholder="Ex.20" min="1" max="150" [formControlName]="'Age'">
            </mat-form-field>
            <br>
            <label id="example-radio-group-label">Genre</label>
            <mat-radio-group
-             aria-labelledby="example-radio-group-label" class="example-radio-group">
-             <mat-radio-button class="example-radio-button"  [value]="'homme'">
+             aria-labelledby="example-radio-group-label" class="example-radio-group" [formControlName]="'IsFemale'">
+             <mat-radio-button class="example-radio-button" [value]="false">
                Homme
              </mat-radio-button>
-             <mat-radio-button class="example-radio-button"  [value]="'femme'">
+             <mat-radio-button class="example-radio-button"  [value]="true">
                Femme
              </mat-radio-button>
            </mat-radio-group>
 
            <br>
-           <label id="example-radio-group-label2">Ethnecite</label>
+           <label id="example-radio-group-label2">Ethnie</label>
            <mat-radio-group
-             aria-labelledby="example-radio-group-label2" class="example-radio-group">
+             aria-labelledby="example-radio-group-label2" class="example-radio-group" [formControlName]="'Ethnicity'">
              <mat-radio-button class="example-radio-button"  [value]="'UNKNOWN'">
                Inconnu
              </mat-radio-button>
              <mat-radio-button class="example-radio-button"  [value]="'ATSI'">
                ATSI
              </mat-radio-button>
-             <mat-radio-button class="example-radio-button"  [value]="'NOT_ATSI'">
+             <mat-radio-button class="example-radio-button"  [value]="'NON_ATSI'">
                Non ATSI
              </mat-radio-button>
            </mat-radio-group>
@@ -65,29 +66,64 @@
              </mat-select>
            </mat-form-field>
          </div>
-
-
-
        </div>
       </app-bloc-container>
     </div>
     <div class="rightSide">
-      <app-bloc-result></app-bloc-result>
+      <app-bloc-result [result]="result"></app-bloc-result>
     </div>
   </div>
   <div class="bottom">
     <div class="leftSide">
       <app-bloc-container [title]="'Médicaments pris'">
-        Hehe c'est le content
+        <label formArrayName="MedicationGroups" *ngFor="let medicine of medicineFormArray.controls; let i = index">
+          <mat-checkbox [formControlName]="i">
+            {{medicationGroupsData[i].label}}
+          </mat-checkbox>
+        </label>
       </app-bloc-container>
       <app-bloc-container [title]="'Maladies'">
-        Hehe c'est le content
+        <label formArrayName="Diseases" *ngFor="let disease of diseaseFormArray.controls; let i = index">
+          <mat-checkbox [formControlName]="i">
+            {{diseasesData[i].label}}
+          </mat-checkbox>
+        </label>
       </app-bloc-container>
     </div>
     <div class="rightSide">
-      <app-bloc-container [title]="'Pathologie'">
-        Hehe c'est le content
+      <app-bloc-container [title]="'Pathologie'" >
+        <div class="pathology">
+
+        </div>
+
+        <fieldset>
+          <div class="wrapper">
+            <div class="grid-header">
+              <div class="header-item"></div>
+              <div class="header-item"><div>Inconnu</div></div>
+              <div class="header-item">Faible</div>
+              <div class="header-item">Moyen</div>
+              <div class="header-item">Haut</div>
+            </div>
+
+            <div class="grid-row"  formArrayName="Pathology" *ngFor="let pathology of pathologyFormArray.controls; let i = index">
+
+              <mat-radio-group  [formControlName]="i" class="grid-row" >
+                <div class="flex-item">{{pathologyData[i].label}}</div>
+                <label class="flex-item"  *ngFor="let path of pathologyCategory">
+                  <mat-radio-button [value]="path.id">
+                  </mat-radio-button>
+                </label>
+              </mat-radio-group>
+
+            </div>
+
+          </div>
+        </fieldset>
+
+
       </app-bloc-container>
     </div>
   </div>
+  </form>
 </div>

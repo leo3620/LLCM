@@ -65,12 +65,11 @@ public class PRMCalculator extends HCHRiskStratificationPRMScoreCalculator
 	    String key = (String) iterator.next();
 	    switch(key) {
 		case "Age":
-		    double age = Double.parseDouble((String) json.get(key));
+			double age = ((double)(int)json.get(key));
 		    data.setAge(age);
 		    break;
 		case "IsFemale":
-		    boolean isFemale = Boolean.parseBoolean(
-						(String) json.get(key));
+		    boolean isFemale = (boolean) json.get(key);
 		    data.setIsFemale(isFemale);
 		    break;
 		case "MedicationGroups":
