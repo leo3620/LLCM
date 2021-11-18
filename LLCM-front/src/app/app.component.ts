@@ -6,6 +6,7 @@ import {diseases} from './enum/Disease';
 import {pathology} from './enum/Pathology';
 import {pathologyCategory} from './enum/PathologyCategory';
 import {HttpClient} from "@angular/common/http";
+import {alcoholStatus} from "./enum/AlcoholSatus";
 
 interface Food {
   value: string;
@@ -22,12 +23,6 @@ export class AppComponent implements OnInit{
 
   form: FormGroup;
   result = 0;
-
-  foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
-  ];
 
   medicationGroupsData = [];
   diseasesData = [];
@@ -53,6 +48,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      AlcoholStatus: 'NOT_RECORDED',
       MedicationGroups: new FormArray([]),
       Diseases: new FormArray([]),
       Pathology: new FormArray([]),
@@ -98,6 +94,11 @@ export class AppComponent implements OnInit{
 
   getPathology(): any {
     return pathology;
+  }
+
+
+  getAlcoholStatus(): any {
+    return alcoholStatus;
   }
 
   submit(): any {

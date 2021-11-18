@@ -42,8 +42,8 @@
            <mat-form-field appearance="fill">
              <mat-label>BMI</mat-label>
              <mat-select>
-               <mat-option *ngFor="let food of foods" [value]="food.value">
-                 {{food.viewValue}}
+               <mat-option *ngFor="let alcoholStatus of getAlcoholStatus()" [value]="alcoholStatus.id">
+                 {{alcoholStatus.label}}
                </mat-option>
              </mat-select>
            </mat-form-field>
@@ -51,17 +51,17 @@
            <mat-form-field appearance="fill">
              <mat-label>Fumeur</mat-label>
              <mat-select>
-               <mat-option *ngFor="let food of foods" [value]="food.value">
-                 {{food.viewValue}}
+               <mat-option *ngFor="let alcoholStatus of getAlcoholStatus()" [value]="alcoholStatus.id">
+                 {{alcoholStatus.label}}
                </mat-option>
              </mat-select>
            </mat-form-field>
 
            <mat-form-field appearance="fill">
              <mat-label>Alcoolique</mat-label>
-             <mat-select>
-               <mat-option *ngFor="let food of foods" [value]="food.value">
-                 {{food.viewValue}}
+             <mat-select formArrayName="AlcoholStatus">
+               <mat-option *ngFor="let alcoholStatus of getAlcoholStatus()" [value]="alcoholStatus.id">
+                 {{alcoholStatus.label}}
                </mat-option>
              </mat-select>
            </mat-form-field>
@@ -75,7 +75,7 @@
   </div>
   <div class="bottom">
     <div class="leftSide">
-      <app-bloc-container [title]="'Médicaments pris'">
+      <app-bloc-container [title]="'  Médicaments pris'">
         <label formArrayName="MedicationGroups" *ngFor="let medicine of medicineFormArray.controls; let i = index">
           <mat-checkbox [formControlName]="i">
             {{medicationGroupsData[i].label}}
@@ -83,11 +83,13 @@
         </label>
       </app-bloc-container>
       <app-bloc-container [title]="'Maladies'">
-        <label formArrayName="Diseases" *ngFor="let disease of diseaseFormArray.controls; let i = index">
-          <mat-checkbox [formControlName]="i">
-            {{diseasesData[i].label}}
-          </mat-checkbox>
-        </label>
+        <div class="box-flex-maladie">
+          <label formArrayName="Diseases" *ngFor="let disease of diseaseFormArray.controls; let i = index" class="checkbox-item">
+            <mat-checkbox [formControlName]="i">
+              {{diseasesData[i].label}}
+            </mat-checkbox>
+          </label>
+        </div>
       </app-bloc-container>
     </div>
     <div class="rightSide">

@@ -73,7 +73,7 @@ public class PRMCalculator extends HCHRiskStratificationPRMScoreCalculator
 		    data.setIsFemale(isFemale);
 		    break;
 		case "MedicationGroups":
-				var temp = new JSONArray();
+				JSONArray temp = new JSONArray();
 				temp.addAll((ArrayList) json.get(key));
 		    data.setGroupEnum(key, temp);
 		    break;
