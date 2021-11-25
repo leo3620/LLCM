@@ -7,6 +7,7 @@ import {pathology} from './enum/Pathology';
 import {pathologyCategory} from './enum/PathologyCategory';
 import {HttpClient} from "@angular/common/http";
 import {alcoholStatus} from "./enum/AlcoholSatus";
+import { BlocResultComponent } from './bloc-result/bloc-result.component';
 
 interface Food {
   value: string;
@@ -23,7 +24,9 @@ export class AppComponent implements OnInit{
 
   form: FormGroup;
   result = 0;
-
+  labels = [];
+  chartPercentList = [];
+  block : BlocResultComponent;
   medicationGroupsData = [];
   diseasesData = [];
   pathologyData = [];
@@ -69,11 +72,15 @@ export class AppComponent implements OnInit{
     this.form.valueChanges.subscribe(val => {
       this.fetchResult();
     });
+ 
+
   }
 
   fetchResult(): void {
     this.http.post<number>("http://localhost:8080/calculate", this.submit()).subscribe(result => {
       this.result = result;
+    this.labels.push("");
+    this.chartPercentList.push(result*100);
     })
 
   }
