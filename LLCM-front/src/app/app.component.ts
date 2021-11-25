@@ -11,6 +11,7 @@ import {smokingStatus} from "./enum/SmokingStatus";
 import {LabelType, Options} from "@angular-slider/ngx-slider";
 import {BMICategory} from "./enum/BmiCategory";
 import { BlocResultComponent } from './bloc-result/bloc-result.component';
+import {pairwise, startWith} from "rxjs/operators";
 
 interface Food {
   value: string;
@@ -107,19 +108,36 @@ export class AppComponent implements OnInit {
     this.form.valueChanges.subscribe(val => {
       this.fetchResult();
     });
- 
-
   }
 
   /**
    * Fetch result from the backend
    */
   fetchResult(): void {
+    // @CLEMENT ICI ========>======>=====>======>+=======>==== ( c'est juste le copier coller d'internet)
+    /**
+    const formValue = [];
+    // iterate over form controls no matter how many control you have.
+    Object.keys(this.form.controls).map((key) => {
+      // create a new parsed object
+      const parsedValue = {
+        [key]: this.form.get(key).value, // key is the actual form control name
+        changed: this.form.get(key).dirty // added changed key to identify value change
+      }
+
+      // push each parsed control to formValue array.
+      formValue.push(parsedValue)
+    })
+
+    console.log(formValue)
+    **/
+
     this.http.post<number>("http://localhost:8080/calculate", this.submit()).subscribe(result => {
       this.result = result;
     this.labels.push("");
     this.chartPercentList.push(result*100);
     })
+    this.form.markAsPristine()
   }
 
   /**

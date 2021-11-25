@@ -6,6 +6,7 @@
   width: 500px;
   display: flex;
   flex-direction: column;
+
   .title-container{
     background: rgba(79,191,255,0.9200000166893005);
     text-align: center;
@@ -18,12 +19,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+
     .number{
       color: red;
-      font-size: 3rem;
+      font-size: 40px;
       text-align: center;
+      width: 100%;
+      line-height: normal;
+      height: fit-content;
+      display: block;
     }
   }
+}
+
+.chartContainer{
+  width: 99% !important;
+  height: 100% !important;
+
 }

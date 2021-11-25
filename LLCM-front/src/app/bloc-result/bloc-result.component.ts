@@ -34,10 +34,13 @@ export class BlocResultComponent implements OnInit {
     const config = {
       type: 'line',
       data: data,
+
       options: {
         plugins: {
           legend: false,
         },
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
               max: 100,
@@ -46,7 +49,12 @@ export class BlocResultComponent implements OnInit {
                   stepSize: 1
               }
           }
-      }
+      },
+        layout: {
+          padding: {
+            bottom: -15
+          }
+        }
       }
     };
     this.myChart = new Chart(
@@ -55,7 +63,6 @@ export class BlocResultComponent implements OnInit {
     );
     document.getElementById("myBtn").addEventListener("click", this.flush);
     }
-
 
   ngOnChanges(changes: SimpleChanges): void
   {
