@@ -17,9 +17,9 @@ export class BlocResultComponent implements OnInit {
   labels : Array<string>;
   @Input()
   chartPercentList : Array<number>;
-  myChart: any;
-  constructor() { }
-
+  myChart: Chart;
+  constructor() {
+  }
 
 
   ngOnInit(): void {
@@ -53,20 +53,16 @@ export class BlocResultComponent implements OnInit {
       document.getElementById('myChart') as HTMLCanvasElement,
       config as any
     );
-  }
+    document.getElementById("myBtn").addEventListener("click", this.flush);
+    }
 
-  addData(label, data) {
-    this.myChart.data.labels.push(label);
-    this.myChart.datasets.forEach((dataset) => {
-      this.myChart.dataset.data.push(data);
-    });
-    this.myChart.update();
-  }
 
   ngOnChanges(changes: SimpleChanges): void
   {
-    console.log(this.labels.toString());
     this.myChart.update();
   }
-}
 
+  flush() {    
+    this.myChart.clear();
+  }
+}

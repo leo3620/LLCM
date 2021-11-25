@@ -23,6 +23,7 @@ interface Food {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
   title = 'LLCM-front';
 
   form: FormGroup;
@@ -99,6 +100,7 @@ export class AppComponent implements OnInit {
 
     this.onChanges();
     this.fetchResult();
+    
   }
 
   onChanges(): void {
