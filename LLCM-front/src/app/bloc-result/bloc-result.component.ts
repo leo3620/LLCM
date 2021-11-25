@@ -26,8 +26,8 @@ export class BlocResultComponent implements OnInit {
     const data = {
       labels: this.labels,
       datasets: [{
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(0, 0, 0)',
+        backgroundColor: 'rgb(63, 81, 181)',
+        borderColor: 'rgb(63, 81, 181)',
         data:this.chartPercentList,
       }]
     };

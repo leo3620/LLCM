@@ -86,7 +86,7 @@ public class PRMCalculator extends HCHRiskStratificationPRMScoreCalculator
 		    data.setPathology(new JSONObject( (LinkedHashMap) json.get(key)));
 		    break;
 		default:
-		    data.setEnum((String) key, (String) json.get(key));
+ 			    data.setEnum((String) key, (String) json.get(key));
 		    break;
 	    }
 	}
