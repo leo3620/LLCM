@@ -3,13 +3,13 @@
     Risque d'hospitalisation
   </div>
   <div class="result">
-    <div class="number">
+    <span class="number">
       {{result * 100  | number:'1.0-2' }}%
-    </div>
+    </span>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div>
+    <div class="chartContainer">
       <canvas id="myChart"></canvas>
-    </div> 
+    </div>
   </div>
 </div>
 

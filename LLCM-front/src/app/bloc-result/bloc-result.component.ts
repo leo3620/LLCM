@@ -34,10 +34,13 @@ export class BlocResultComponent implements OnInit {
     const config = {
       type: 'line',
       data: data,
+
       options: {
         plugins: {
           legend: false,
         },
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
               max: 100,
@@ -46,7 +49,12 @@ export class BlocResultComponent implements OnInit {
                   stepSize: 1
               }
           }
-      }
+      },
+        layout: {
+          padding: {
+            bottom: -15
+          }
+        }
       }
     };
     this.myChart = new Chart(
@@ -55,17 +63,8 @@ export class BlocResultComponent implements OnInit {
     );
   }
 
-  addData(label, data) {
-    this.myChart.data.labels.push(label);
-    this.myChart.datasets.forEach((dataset) => {
-      this.myChart.dataset.data.push(data);
-    });
-    this.myChart.update();
-  }
-
   ngOnChanges(changes: SimpleChanges): void
   {
-    console.log(this.labels.toString());
     this.myChart.update();
   }
 }
