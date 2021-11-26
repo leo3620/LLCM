@@ -66,6 +66,7 @@ export class BlocResultComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void
   {
+    console.log(this.labels)
     this.myChart.update();
   }
 

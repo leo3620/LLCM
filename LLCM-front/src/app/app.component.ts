@@ -35,9 +35,11 @@ export class AppComponent implements OnInit {
   medicationGroupsData = [];
   diseasesData = [];
   pathologyData = [];
-
+  parameterString : string;
   minValue: number = 1;
   maxValue: number = 2;
+
+
 
   options: Options = {
     floor: 1,
@@ -93,7 +95,6 @@ export class AppComponent implements OnInit {
       Ethnicity: 'UNKNOWN',
       bmiUnknown: true,
     });
-
     this.medicationGroupsData = this.getMedicine();
     this.diseasesData = this.getDisease();
     this.pathologyData = this.getPathology();
@@ -114,27 +115,13 @@ export class AppComponent implements OnInit {
    * Fetch result from the backend
    */
   fetchResult(): void {
-    // @CLEMENT ICI ========>======>=====>======>+=======>==== ( c'est juste le copier coller d'internet)
-    /**
-    const formValue = [];
-    // iterate over form controls no matter how many control you have.
-    Object.keys(this.form.controls).map((key) => {
-      // create a new parsed object
-      const parsedValue = {
-        [key]: this.form.get(key).value, // key is the actual form control name
-        changed: this.form.get(key).dirty // added changed key to identify value change
-      }
-
-      // push each parsed control to formValue array.
-      formValue.push(parsedValue)
-    })
-
-    console.log(formValue)
-    **/
+    this.getJson();
 
     this.http.post<number>("http://localhost:8080/calculate", this.submit()).subscribe(result => {
-      this.result = result;
-    this.labels.push("");
+    this.result = result;
+   
+    console.log("THIS ONE2 : "+this.parameterString)
+    this.labels.push(this.parameterString);
     this.chartPercentList.push(result*100);
     })
     this.form.markAsPristine()
@@ -203,4 +190,32 @@ export class AppComponent implements OnInit {
     delete finalObject.bmiUnknown;
     return finalObject;
   }
+
+
+  getJson() : any
+  {
+    const formValue = [];
+    // iterate over form controls no matter how many control you have.
+    Object.keys(this.form.controls).map((key) => {
+      // create a new parsed object
+      const parsedValue = {
+        [key]: this.form.get(key).value, // key is the actual form control name
+        changed: this.form.get(key).dirty // added changed key to identify value change
+      }
+      if(parsedValue.changed)
+      {
+        console.log("THIS ONE : "+key)
+        this.parameterString = key;
+        console.log("THIS ONE3 : "+this.parameterString)   
+      }
+      // push each parsed control to formValue array.
+      formValue.push(parsedValue)
+    })
+
+    //console.log(formValue)
+    //return formValue
+  }
+
+
+
 }
