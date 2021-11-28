@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import Chart from 'chart.js/auto';
 
 
@@ -13,10 +13,22 @@ export class BlocResultComponent implements OnInit {
 
   @Input()
   result: number;
-  @Input()
-  labels : Array<string>;
-  @Input()
-  chartPercentList : Array<number>;
+
+  _labels : Array<string>;
+  _chartPercentList : Array<number>;
+
+  @Input() set chartPercentList(valeur: Array<number>) {
+    this._chartPercentList =valeur;
+    this.updateChart();
+  }
+
+  @Input() set labels(valeur: Array<string>) {
+    this._labels =valeur;
+  }
+
+  @Output()
+  rollback= new EventEmitter<any>();
+
   myChart: Chart;
   constructor() {
   }
@@ -24,11 +36,10 @@ export class BlocResultComponent implements OnInit {
 
   ngOnInit(): void {
     const data = {
-      labels: this.labels,
       datasets: [{
         backgroundColor: 'rgb(63, 81, 181)',
         borderColor: 'rgb(63, 81, 181)',
-        data:this.chartPercentList,
+        data:this._chartPercentList,
       }]
     };
     const config = {
@@ -50,27 +61,23 @@ export class BlocResultComponent implements OnInit {
               }
           }
       },
-        layout: {
-          padding: {
-            bottom: -15
-          }
-        }
       }
     };
     this.myChart = new Chart(
       document.getElementById('myChart') as HTMLCanvasElement,
       config as any
     );
-    document.getElementById("myBtn").addEventListener("click", this.flush);
     }
 
-  ngOnChanges(changes: SimpleChanges): void
-  {
-    console.log(this.labels)
-    this.myChart.update();
-  }
 
-  flush() {    
-    this.myChart.clear();
+  updateChart(){
+    if(this.myChart) {
+      this.myChart.data.labels = this._labels;
+      this.myChart.data.datasets[0].data = this._chartPercentList;
+      this.myChart.update();
+    }
+  }
+  flush() {
+    this.rollback.emit();
   }
 }

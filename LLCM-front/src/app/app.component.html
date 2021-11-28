@@ -60,7 +60,7 @@
                 </mat-select>
               </mat-form-field>
               <div class="bmi">
-                <mat-label class="bmi-label">BMI:</mat-label>
+                <mat-label class="bmi-label">IMC:</mat-label>
                 <div>
                   <div class="slider2">
                     Inconnu
@@ -68,7 +68,7 @@
                                       color="primary"></mat-slide-toggle>
                   </div>
                   <div class="slider">
-                    <ngx-slider (userChangeEnd)="fetchResult()" class="slider-slider"
+                    <ngx-slider (userChangeEnd)="updateBMI()" class="slider-slider"
                                 [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
                                 *ngIf="!form.value.bmiUnknown"></ngx-slider>
                   </div>
@@ -80,7 +80,10 @@
         </app-bloc-container>
       </div>
       <div class="rightSide">
-        <app-bloc-result [result]="result" [labels]="labels" [chartPercentList] ="chartPercentList"></app-bloc-result>
+        <app-bloc-result [result]="result" (rollback)="rollback()"
+                         [labels]="labels"
+                         [chartPercentList]="chartPercentList">
+        </app-bloc-result>
       </div>
     </div>
     <div class="bottom">

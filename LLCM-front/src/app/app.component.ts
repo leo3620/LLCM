@@ -8,10 +8,9 @@ import {pathology} from './enum/Pathology';
 import {pathologyCategory} from './enum/PathologyCategory';
 import {alcoholStatus} from "./enum/AlcoholSatus";
 import {smokingStatus} from "./enum/SmokingStatus";
-import {LabelType, Options} from "@angular-slider/ngx-slider";
+import {Options} from "@angular-slider/ngx-slider";
 import {BMICategory} from "./enum/BmiCategory";
-import { BlocResultComponent } from './bloc-result/bloc-result.component';
-import {pairwise, startWith} from "rxjs/operators";
+import {BlocResultComponent} from './bloc-result/bloc-result.component';
 
 interface Food {
   value: string;
@@ -31,15 +30,13 @@ export class AppComponent implements OnInit {
   result = 0;
   labels = [];
   chartPercentList = [];
-  block : BlocResultComponent;
+  block: BlocResultComponent;
   medicationGroupsData = [];
   diseasesData = [];
   pathologyData = [];
-  parameterString : string;
+  parameterString: string;
   minValue: number = 1;
   maxValue: number = 2;
-
-
 
   options: Options = {
     floor: 1,
@@ -101,12 +98,11 @@ export class AppComponent implements OnInit {
     this.addCheckboxes();
 
     this.onChanges();
-    this.fetchResult();
-    
   }
 
   onChanges(): void {
     this.form.valueChanges.subscribe(val => {
+      const myChangedGroup = <FormArray>this.form.get("Diseases").controls;
       this.fetchResult();
     });
   }
@@ -115,15 +111,15 @@ export class AppComponent implements OnInit {
    * Fetch result from the backend
    */
   fetchResult(): void {
-    this.getJson();
+    this.updateChartLabel();
 
     this.http.post<number>("http://localhost:8080/calculate", this.submit()).subscribe(result => {
-    this.result = result;
-   
-    console.log("THIS ONE2 : "+this.parameterString)
-    this.labels.push(this.parameterString);
-    this.chartPercentList.push(result*100);
+      this.result = result;
+
+      this.labels = [...this.labels, this.parameterString];
+      this.chartPercentList = [...this.chartPercentList, result * 100];
     })
+
     this.form.markAsPristine()
   }
 
@@ -167,12 +163,12 @@ export class AppComponent implements OnInit {
     const finalObject = this.form.getRawValue();
 
     const selectedMedicineIds = this.form.value.MedicationGroups
-    .map((checked, i) => checked ? this.medicationGroupsData[i].id : null)
-    .filter(v => v !== null);
+      .map((checked, i) => checked ? this.medicationGroupsData[i].id : null)
+      .filter(v => v !== null);
 
     const selectedDiseaseIds = this.form.value.Diseases
-    .map((checked, i) => checked ? this.diseasesData[i].id : null)
-    .filter(v => v !== null);
+      .map((checked, i) => checked ? this.diseasesData[i].id : null)
+      .filter(v => v !== null);
 
     const selectedPathologyIds = this.form.value.Pathology.reduce((acc, act, index) => {
       return {...acc, [pathology[index].id]: act}
@@ -192,30 +188,98 @@ export class AppComponent implements OnInit {
   }
 
 
-  getJson() : any
-  {
-    const formValue = [];
-    // iterate over form controls no matter how many control you have.
+  /**
+   * Update chart label depending on the form
+   */
+  updateChartLabel(): any {
     Object.keys(this.form.controls).map((key) => {
-      // create a new parsed object
       const parsedValue = {
-        [key]: this.form.get(key).value, // key is the actual form control name
-        changed: this.form.get(key).dirty // added changed key to identify value change
+        [key]: this.form.get(key).value,
+        changed: this.form.get(key).dirty
       }
-      if(parsedValue.changed)
-      {
-        console.log("THIS ONE : "+key)
-        this.parameterString = key;
-        console.log("THIS ONE3 : "+this.parameterString)   
-      }
-      // push each parsed control to formValue array.
-      formValue.push(parsedValue)
-    })
 
-    //console.log(formValue)
-    //return formValue
+      if (parsedValue.changed) {
+        this.parameterString = key;
+        switch (key) {
+          case 'Diseases':
+            this.form.get("Diseases").controls.filter((x, index) => {
+              if (x.dirty) {
+                let sign = this.form.value.Diseases[index] ? '+ ' : '- '
+                this.parameterString = sign + this.getDisease()[index].label;
+                return true;
+              }
+            });
+            break;
+          case 'MedicationGroups':
+            this.form.get("MedicationGroups").controls.filter((x, index) => {
+              if (x.dirty) {
+                let sign = this.form.value.MedicationGroups[index] ? '+ ' : '- '
+                this.parameterString = sign + this.getMedicine()[index].label;
+                return true;
+              }
+            });
+            break;
+          case 'Pathology':
+            this.form.get("Pathology").controls.filter((x, index) => {
+              if (x.dirty) {
+                console.log(this.form.value.Pathology[index])
+                let pathology = this.getPathology()[index].label;
+                let level = this.pathologyCategory.find(x => x.id === this.form.value.Pathology[index]).label
+                this.parameterString = pathology + '(' + level + ')';
+                return true;
+              }
+            });
+            break;
+          case 'Ethnicity': {
+            this.parameterString = parsedValue.Ethnicity === "UNKNOWN" ? "Ethnie inconnue" : parsedValue.Ethnicity;
+            break;
+          }
+          case 'IsFemale': {
+            this.parameterString = parsedValue.IsFemale ? "Femme" : "Homme"
+            break;
+          }
+          case 'Age': {
+            this.parameterString = "Age: " + parsedValue.Age;
+            break;
+          }
+          case 'AlcoholStatus': {
+            this.parameterString = this.getAlcoholStatus().find(x => x.id === parsedValue.AlcoholStatus).label
+            break;
+          }
+          case 'SmokingStatus': {
+            this.parameterString = this.getSmokingStatus().find(x => x.id === parsedValue.SmokingStatus).label
+            break;
+          }
+          case 'bmiUnknown': {
+            if (parsedValue.bmiUnknown) {
+              this.parameterString = "IMC Inconnu";
+            } else {
+              let bmi = this.getBmiCategory().find(bmi => bmi.formValue === this.minValue)
+              this.parameterString = "IMC: " + bmi.min + '-' + bmi.max;
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    })
   }
 
+  /**
+   * Update BMI label and fetch result
+   */
+  updateBMI() {
+    let bmi = this.getBmiCategory().find(bmi => bmi.formValue === this.minValue)
+    this.parameterString = "IMC: " + bmi.min + '-' + bmi.max;
+    this.fetchResult();
+  }
 
-
+  /**
+   * Remove last element and trigger the changes by re affecting the variable
+   */
+  rollback(): void {
+    this.chartPercentList = this.chartPercentList.slice(0, this.chartPercentList.length - 1);
+    this.labels = this.labels.slice(0, this.labels.length - 1);
+  }
 }

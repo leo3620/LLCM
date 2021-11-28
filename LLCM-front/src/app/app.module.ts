@@ -16,6 +16,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -38,7 +41,10 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     HttpClientModule,
     NgxSliderModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    MatButtonToggleModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

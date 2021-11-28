@@ -2,6 +2,9 @@
   <div class="title-container">
     Risque d'hospitalisation
   </div>
+  <button mat-mini-fab class="rollback-button" aria-label="Flush" id="myBtn" color="primary" (click)="flush()">
+    <mat-icon inline>history</mat-icon>
+  </button>
   <div class="result">
     <span class="number">
       {{result * 100  | number:'1.0-2' }}%
@@ -10,7 +13,6 @@
     <div class="chartContainer" id="resultdiv">
       <canvas id="myChart"></canvas>
     </div>
-    <button id="myBtn">Flush</button>
   </div>
 </div>
 

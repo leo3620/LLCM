@@ -1,4 +1,5 @@
 .contentBloc{
+  position: relative;
   border-radius: 6px;
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.25);
   background-color: rgba(#C4C4C4, .10);
@@ -35,5 +36,25 @@
 .chartContainer{
   width: 99% !important;
   height: 100% !important;
+}
 
+.rollback-button{
+  position: absolute;
+  left: 10px;
+  top: 50px;
+
+  width: 25px;
+  height: 25px;
+  line-height: 17px;
+  font-size: 17px;
+
+  &::ng-deep .mat-button-wrapper{
+    line-height: 17px;
+    padding: 0;
+
+    .mat-icon {
+      font-size: 17px;
+      padding-right: 1px;
+    }
+  }
 }
