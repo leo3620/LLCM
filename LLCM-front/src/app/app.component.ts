@@ -102,7 +102,6 @@ export class AppComponent implements OnInit {
 
   onChanges(): void {
     this.form.valueChanges.subscribe(val => {
-      const myChangedGroup = <FormArray>this.form.get("Diseases").controls;
       this.fetchResult();
     });
   }
@@ -202,7 +201,8 @@ export class AppComponent implements OnInit {
         this.parameterString = key;
         switch (key) {
           case 'Diseases':
-            this.form.get("Diseases").controls.filter((x, index) => {
+            let diseasesFormArray = this.form.get("Diseases") as FormArray;
+            diseasesFormArray.controls.filter((x, index) => {
               if (x.dirty) {
                 let sign = this.form.value.Diseases[index] ? '+ ' : '- '
                 this.parameterString = sign + this.getDisease()[index].label;
@@ -211,7 +211,8 @@ export class AppComponent implements OnInit {
             });
             break;
           case 'MedicationGroups':
-            this.form.get("MedicationGroups").controls.filter((x, index) => {
+            let medicationFormArray = this.form.get("MedicationGroups") as FormArray;
+            medicationFormArray.controls.filter((x, index) => {
               if (x.dirty) {
                 let sign = this.form.value.MedicationGroups[index] ? '+ ' : '- '
                 this.parameterString = sign + this.getMedicine()[index].label;
@@ -220,9 +221,9 @@ export class AppComponent implements OnInit {
             });
             break;
           case 'Pathology':
-            this.form.get("Pathology").controls.filter((x, index) => {
+            let pathologyFormArray = this.form.get("Pathology") as FormArray;
+            pathologyFormArray.controls.filter((x, index) => {
               if (x.dirty) {
-                console.log(this.form.value.Pathology[index])
                 let pathology = this.getPathology()[index].label;
                 let level = this.pathologyCategory.find(x => x.id === this.form.value.Pathology[index]).label
                 this.parameterString = pathology + '(' + level + ')';
