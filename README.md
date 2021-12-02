@@ -8,19 +8,19 @@ https://www1.health.gov.au/internet/main/publishing.nsf/Content/predictive-risk-
 
 A la racine du projet:
 
-  mvn clean package
+    mvn clean package
 
  On peut ensuite lancer le back via la création d'une image docker:
 
-  docker build -t llcm .
-  docker run -p 8080:8080 llcm
+    docker build -t llcm .
+    docker run -p 8080:8080 llcm
 
 
 * Pour le front-end:
 
-Toujours a la racine du projet :
-  docker build -t llcm-front LLCM-front
-  docker run -d -p 80:80 llcm-front
+Toujours a la racine du projet :  
+    docker build -t llcm-front LLCM-front  
+    docker run -d -p 80:80 llcm-front
 
 * Vous pouvez retrouver le projet à l'adresse http://localhost:80
 
